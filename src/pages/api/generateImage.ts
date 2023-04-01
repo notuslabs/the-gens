@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from "openai";
 import { v2 as cloudinary } from "cloudinary";
+import { v4 as uuidV4 } from "uuid";
 
 type Data = {
   prompt: string,
@@ -43,9 +44,11 @@ export default async function handler(
 
   const results = await Promise.all(userImgUploadPromises);
 
+  const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt }))
+
   await prisma.userImage.createMany({
-    data: results.map((image) => ({ image_url: image.secure_url || '', address: address, prompt }))
+    data,
   });
 
-  return res.json(results.map((result) => ({ url: result.secure_url })))
+  return res.json(data)
 }

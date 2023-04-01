@@ -2,7 +2,6 @@ import Head from 'next/head'
 
 import Generate from '@/templates/Generate'
 
-
 export default function Home() {
   return (
     <>

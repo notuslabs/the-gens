@@ -35,7 +35,7 @@ const Generate = () => {
       </div>
       <div className="bg-gray-600 h-screen">
         {images.map(image => (
-          <Cards image={image} />
+          <Cards key={image.id} image={image} />
         ))}
       </div>
     </main>

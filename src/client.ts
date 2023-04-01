@@ -1,5 +1,6 @@
 export type GenerateImageProps = {
   prompt: string
+  // eslint-disable-next-line prettier/prettier
   numImages?: number;
   address: string;
 };

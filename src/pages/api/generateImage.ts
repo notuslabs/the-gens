@@ -13,6 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // eslint-disable-next-line prettier/prettier
   const { address, numImages,prompt } = req.body as Data;
 
   const configuration = new Configuration({

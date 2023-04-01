@@ -6,6 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // eslint-disable-next-line prettier/prettier
   const address = req.query.address as string
 
   const prisma = new PrismaClient()
@@ -13,4 +14,4 @@ export default async function handler(
   const images = await prisma.userImage.findMany({ where: { address } })
 
   return res.json(images)
-}
+};

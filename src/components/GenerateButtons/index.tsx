@@ -8,10 +8,10 @@ export type GenerateButtonsProps = {
 
 const GenerateButtons = ({ onClick }: GenerateButtonsProps) => {
   return (
-    <div className="grid grid-cols-grid-buttons gap-2 p-4 border-white border-2 rounded-lg">
+    <div className="grid grid-cols-grid-buttons gap-2 p-4 border border-solid rounded-md border-slate-500">
       <Button onClick={() => onClick(1)} text="Gerar" />
-      <Button onClick={() => onClick(5)} text="x5" />
-      <Button onClick={() => onClick(10)} text="x10" />
+      <Button onClick={() => onClick(4)} text="x4" />
+      <Button onClick={() => onClick(9)} text="x9" />
     </div>
   )
 }

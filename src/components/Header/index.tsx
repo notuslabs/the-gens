@@ -39,17 +39,17 @@ const Header = () => {
 
       <div className="flex gap-10 items-center ml-3">
         <Link
-          href="/mint"
+          href="/"
           className={`${
-            colorVariants[routerAspath === '/mint' ? 'active' : 'disable']
+            colorVariants[routerAspath === '/' ? 'active' : 'disable']
           } font-semibold text-sm cursor-pointer`}
         >
           Mint Pass
         </Link>
         <Link
-          href="/generate"
+          href="/gerar"
           className={`${
-            colorVariants[routerAspath === '/generate' ? 'active' : 'disable']
+            colorVariants[routerAspath === '/gerar' ? 'active' : 'disable']
           } font-semibold text-sm cursor-pointer`}
         >
           Gerar
@@ -59,7 +59,7 @@ const Header = () => {
           target="_blank"
           className="text-neutral-500 font-semibold text-sm cursor-pointer"
         >
-          Cooleção
+          Coleção
         </Link>
         <div>
           {userWalletAddress !== '' ? (

@@ -7,10 +7,10 @@ export type CardProps = {
 
 const Cards = ({ image }: CardProps) => {
   return (
-    <div className="w-80 h-72 relative">
+    <div className="relative">
       <a href="/">
         <img
-          className="w-80 h-72 border border-solid rounded-lg border-slate-500"
+          className="min-w-full max-h-full object-cover border border-solid rounded-lg border-slate-500"
           src={image.image_url}
           alt=""
           srcSet=""

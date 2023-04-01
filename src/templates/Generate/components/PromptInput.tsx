@@ -13,17 +13,14 @@ export function PromptInput({ onPromptInput }: PromptInputProps) {
   }
 
   return (
-    <div className="flex rounded-lg py-3 px-6 bg-black max-w-[33.5rem] h-[38.4375rem] flex-col border-2 border-[#737474]">
-      <span className="text-[#737374] select-none text-lg leading-6 font-normal">
-        Prompt
-      </span>
+    <div className="h-[420px] px-6 py-3 mt-4 border border-solid rounded-md border-slate-500">
+      <p className="text-gray-600">Prompt</p>
       <textarea
-        className="bg-inherit resize-none outline-none h-full text-white text-lg leading-6 my-4"
+        className="w-full h-full bg-inherit resize-none outline-none text-white text-lg leading-6"
         onChange={e => handlePromptInput(e.target.value)}
         placeholder="type a prompt here..."
-      >
-        {currentPrompt}
-      </textarea>
+        value={currentPrompt}
+      />
     </div>
   )
 }

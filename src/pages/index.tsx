@@ -1,12 +1,12 @@
 import Head from 'next/head'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+// import { useNetwork, useSwitchNetwork } from 'wagmi'
 
-import { aurora } from '@wagmi/chains'
+// import { aurora } from '@wagmi/chains'
 import Generate from '@/templates/Generate'
 
 export default function Home() {
-  const { chain } = useNetwork()
-  const { switchNetwork } = useSwitchNetwork()
+  // const { chain } = useNetwork()
+  // const { switchNetwork } = useSwitchNetwork()
 
   return (
     <>
@@ -16,11 +16,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {chain?.id !== aurora.id && (
+      {/* {chain?.id !== aurora.id && (
         <button onClick={() => switchNetwork?.(aurora.id)}>
           CHANGE NETWORK
         </button>
-      )}
+      )} */}
       <Generate />
     </>
   )

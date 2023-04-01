@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   deleteImage,
   favoriteImage,
@@ -5,9 +7,9 @@ import {
   getImages,
   mintImage
 } from '@/client'
-import React from 'react'
 
 import Cards from '@/components/Cards'
+import GenerateButtons from '@/components/GenerateButtons'
 
 const Generate = () => {
   React.useEffect(() => {
@@ -49,10 +51,10 @@ const Generate = () => {
   return (
     <main className="bg-black w-full h-screen columns-2">
       <div className="bg-gray-600 h-screen">
-        <Cards />
+        <GenerateButtons />
       </div>
       <div className="bg-gray-600 h-screen">
-        <p className="text-white">grid</p>
+        <Cards />
       </div>
     </main>
   )

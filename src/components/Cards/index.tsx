@@ -10,8 +10,23 @@ const Cards = () => {
           alt=""
           srcSet=""
         />
-        <button className="absolute right-2 top-2 bg-white rounded-lg">
-          ADD
+        <button
+          type="button"
+          className="absolute right-14 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onClick={() => alert('Clicou no like')}
+        >
+          <img src="/icons/heart.svg" alt="" />
+        </button>
+        <button
+          type="button"
+          className="absolute right-1 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onClick={() => alert('Clicou no deletar')}
+        >
+          <img src="/icons/trash.svg" alt="" />
         </button>
       </a>
     </div>

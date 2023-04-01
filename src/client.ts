@@ -36,7 +36,7 @@ export type DeleteImageProps = {
   imageId: string;
 };
 
-export const generateImage = async ({ address, prompt,numImages }: GenerateImageProps): Promise<Image[]> => {
+export const generateImages = async ({ address, prompt,numImages }: GenerateImageProps): Promise<Image[]> => {
   const response = await fetch('/api/generateImage', { 
    headers: { 'Content-Type': 'application/json' },
    method: "POST",

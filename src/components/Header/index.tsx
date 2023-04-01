@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <nav className="flex justify-between items-center bg-black px-8 py-3">
-      <img src="/logo.svg" alt="logo" width={86} height={24} />
+      <img src="/icons/logo.svg" alt="logo" width={86} height={24} />
 
       <div className="flex gap-10 items-center ml-3">
         <Link

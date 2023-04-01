@@ -1,35 +1,42 @@
-import { getImages, Image } from '@/client'
 import React from 'react'
+
+import {
+  deleteImage,
+  favoriteImage,
+  generateImages,
+  getImages,
+  Image,
+  mintImage
+} from '@/client'
 
 import Cards from '@/components/Cards'
 import GenerateButtons from '@/components/GenerateButtons'
+import { PromptInput } from './components/PromptInput'
 
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])
+  const [prompt, setPrompt] = React.useState('')
 
-  React.useEffect(() => {
-    async function generateImage() {
-      const images = await getImages({
-        address: '0x00',
-        filters: {
-          onlyMinted: true
-        }
-      })
+  async function generateImage(numImages: number) {
+    const images = await generateImages({
+      address: '0x00',
+      prompt,
+      numImages
+    })
 
-      setImages(images)
-    }
-
-    generateImage()
-  }, [])
+    setImages(images)
+  }
 
   return (
     <main className="bg-black w-full h-screen columns-2">
       <div className="bg-gray-600 h-screen">
-        <GenerateButtons onClick={console.log} />
-        <Cards />
+        <GenerateButtons onClick={generateImage} />
+        <PromptInput onPromptInput={setPrompt} />
       </div>
       <div className="bg-gray-600 h-screen">
-        <p className="text-white"></p>
+        {images.map(image => (
+          <Cards image={image} />
+        ))}
       </div>
     </main>
   )

@@ -23,6 +23,15 @@ module.exports = {
       animation: {
         'backgroundLinearGradient':'AniLinearGradientButton 2s ease infinite',
       },
+      backgroundColor: {
+        "backgroundModal": 'rgba(0, 0, 0, 0.8)',
+        "backgroundCloseModal": 'rgba(255, 255, 255, 0.05)'
+      },
+      translate: {
+        translate: {
+          'modalTransform': '-50% -50%',
+        }
+      },
       keyframes: {
           'AniLinearGradientButton': {
             '0%, 100%': {

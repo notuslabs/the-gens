@@ -1,12 +1,17 @@
 import React from 'react'
+import { Image } from '@/client'
 
-const Cards = () => {
+export type CardProps = {
+  image: Image
+}
+
+const Cards = ({ image }: CardProps) => {
   return (
     <div className="w-80 h-72 relative">
       <a href="/">
         <img
           className="w-80 h-72 border border-solid rounded-lg border-slate-500"
-          src="https://res.cloudinary.com/dmztvy5k7/image/upload/v1680373568/oyui306ouvf3ymswno7g.png"
+          src={image.image_url}
           alt=""
           srcSet=""
         />

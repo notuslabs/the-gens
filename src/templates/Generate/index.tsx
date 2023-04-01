@@ -3,68 +3,49 @@ import React from 'react'
 import {
   deleteImage,
   favoriteImage,
-  generateImage,
+  generateImages,
   getImages,
+  Image,
   mintImage
 } from '@/client'
 
 import Cards from '@/components/Cards'
 import GenerateButtons from '@/components/GenerateButtons'
 import CollectionFilter from '@/components/CollectionFilter'
+import { PromptInput } from './components/PromptInput'
 
 const Generate = () => {
-  React.useEffect(() => {
-    async function test() {
-      const imageId = '714f333f-8995-423d-8bd0-bec4030ec80b'
-      const address = '0x00'
+  const [images, setImages] = React.useState<Image[]>([])
+  const [prompt, setPrompt] = React.useState('')
 
-      /*const generatedImages = await generateImage({
-        address,
-        prompt: 'test',
-        numImages: 1
-      })*/
+  async function generateImage(numImages: number) {
+    const images = await generateImages({
+      address: '0x00',
+      prompt,
+      numImages
+    })
 
-      /*await mintImage({
-        imageId,
-        minted: true
-      })
-      await favoriteImage({
-        imageId,
-        favorite: true
-      })
-
-      await deleteImage({
-        imageId
-      })*/
-
-      const images = await getImages({
-        address: '0x00',
-        filters: {
-          onlyMinted: true
-        }
-      })
-      console.log(images)
-    }
-
-    test()
-  }, [])
+    setImages(images)
+  }
 
   return (
     <main className="bg-black w-full px-8">
       <div className="max-h-screen columns-2 bg-gray-600">
         <div>
-          <GenerateButtons />
+          <GenerateButtons onClick={generateImage} />
+          <PromptInput onPromptInput={setPrompt} />
         </div>
         <div>
-          <Cards />
+          {images.map(image => (
+            <Cards key={image.id} image={image} />
+          ))}
         </div>
       </div>
       <CollectionFilter />
       <div className="h-auto columns-4">
-        {Array(11).map(item => (
-          <Cards key={item} />
+        {images.map(image => (
+          <Cards key={image.id} image={image} />
         ))}
-        <Cards />
       </div>
     </main>
   )

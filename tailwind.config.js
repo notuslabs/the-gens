@@ -10,8 +10,30 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '86': '350px'
+      },
       fontFamily: {
-        sans: ['"Inter"', 'sans-serif']
+        "sans": ['"Inter"', 'sans-serif'],
+        "oswalds": ['"Oswald"', 'sans-serif']
+      },
+      gridTemplateColumns: {
+        'grid-buttons': '2fr repeat(2, 1fr)'
+      },
+      animation: {
+        'backgroundLinearGradient':'AniLinearGradientButton 2s ease infinite',
+      },
+      keyframes: {
+          'AniLinearGradientButton': {
+            '0%, 100%': {
+              'background-size':'600% 600%',
+                'background-position': 'left center'
+            },
+            '50%': {
+              'background-size':'600% 600%',
+                'background-position': 'right center'
+            }
+        },
       }
     },
   },

@@ -1,4 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+/* eslint-disable prettier/prettier */
+
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -11,7 +12,7 @@ export default async function handler(
   const filter = req.query.filter as string | undefined;
 
   
-  let finalFilters: any = {}
+  const finalFilters: any = {}
 
   if(filter) {
     const filtersSplit = filter.split(",")

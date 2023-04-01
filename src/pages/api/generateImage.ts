@@ -1,7 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+/* eslint-disable prettier/prettier */
+
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from "openai";
+import { v2 as cloudinary } from "cloudinary";
+import { v4 as uuidV4 } from "uuid";
 
 type Data = {
   prompt: string,
@@ -26,12 +29,27 @@ export default async function handler(
   const response = await openai.createImage({
     prompt: prompt,
     n: numImages,
-    size: '512x512',
+    size: '1024x1024',
   });
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY,
+    api_secret: process.env.CLOUD_SECRET
+  });
+
+  const userImgUploadPromises = [];
+  for(const userImage of response.data.data) {
+    userImgUploadPromises.push(cloudinary.uploader.upload(userImage.url || ''))
+  }
+
+  const results = await Promise.all(userImgUploadPromises);
+
+  const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt, isMinted: false, isFavorited: false }))
 
   await prisma.userImage.createMany({
-    data: response.data.data.map((image) => ({ image_url: image.url || '', address: address, prompt }))
+    data,
   });
 
-  return res.json(response.data.data)
+  return res.json(data)
 }

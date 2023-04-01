@@ -1,6 +1,28 @@
 import React from 'react'
+import { jsNumberForAddress } from 'react-jazzicon'
+import Jazzicon from 'react-jazzicon/dist/Jazzicon'
+
+import { useAccount, useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
+import substr from '@/Utils/substr'
 
 const Header = () => {
+  const [userWalletAddress, setuserWalletAddress] = React.useState('')
+
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new InjectedConnector()
+  })
+
+  React.useEffect(() => {
+    if (isConnected) {
+      setuserWalletAddress(String(address))
+    } else {
+      setuserWalletAddress('')
+    }
+  }, [address])
+
   return (
     <nav className="bg-black">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -35,43 +57,35 @@ const Header = () => {
                 </a>
               </div>
             </div>
-            <button
-              type="button"
-              className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            >
-              <span className="sr-only">View notifications</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                />
-              </svg>
-            </button>
 
             <div className="relative ml-3">
               <div>
-                <button
-                  type="button"
-                  className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </button>
+                {userWalletAddress !== '' ? (
+                  <div className="flex items-center gap-2">
+                    <Jazzicon
+                      diameter={32}
+                      seed={jsNumberForAddress(
+                        String(userWalletAddress) ||
+                          '0x1111111111111111111111111111111111111111'
+                      )}
+                    />
+                    <p className=" text-white font-semibold">
+                      {address ? substr(String(address)) : ''}
+                    </p>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    // className="flex rounded-full p-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    className="flex rounded-full font-medium p-2 bg-white text-base focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    id="user-menu-button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    onClick={() => connect()}
+                  >
+                    Connect Wallet
+                  </button>
+                )}
               </div>
 
               {/* <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>

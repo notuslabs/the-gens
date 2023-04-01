@@ -9,10 +9,12 @@ datasource db {
 }
 
 model UserImage {
-  id        Int    @id @default(autoincrement())
-  image_url String @db.VarChar(500)
-  address   String @db.VarChar(500)
-  prompt    String @db.VarChar(500)
+  id          String  @id @default(uuid())
+  image_url   String  @db.LongText
+  address     String  @db.Char(42)
+  prompt      String  @db.LongText
+  isFavorited Boolean @default(false)
+  isMinted    Boolean @default(false)
 
   @@index([address])
 }

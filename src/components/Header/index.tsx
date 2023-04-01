@@ -1,14 +1,19 @@
 import React from 'react'
 import { jsNumberForAddress } from 'react-jazzicon'
 import Jazzicon from 'react-jazzicon/dist/Jazzicon'
+import Link from 'next/link'
 
 import { useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 import substr from '@/Utils/substr'
+import { useRouter } from 'next/router'
 
 const Header = () => {
   const [userWalletAddress, setuserWalletAddress] = React.useState('')
+
+  const router = useRouter()
+  const routerAspath = router.pathname
 
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({
@@ -23,111 +28,65 @@ const Header = () => {
     }
   }, [address])
 
+  const colorVariants: Record<string, string> = {
+    disable: 'text-neutral-500 hover:brightness-75 ',
+    active: 'text-neutral-50 hover:brightness-75'
+  }
+
   return (
-    <nav className="bg-black">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center text-white">
-              <p className="text-gray-300text-lg font-medium">The Gens</p>
-            </div>
-          </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                <a
-                  href="/"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                >
-                  Generate
-                </a>
+    <nav className="flex justify-between items-center bg-black px-8 py-3">
+      <img src="/logo.svg" alt="logo" width={86} height={24} />
 
-                <a
-                  href="/mint"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                >
-                  Mint Pass
-                </a>
-
-                <a
-                  href="/collection"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                >
-                  Collection
-                </a>
-              </div>
-            </div>
-
-            <div className="relative ml-3">
-              <div>
-                {userWalletAddress !== '' ? (
-                  <div className="flex items-center gap-2">
-                    <Jazzicon
-                      diameter={32}
-                      seed={jsNumberForAddress(
-                        String(userWalletAddress) ||
-                          '0x1111111111111111111111111111111111111111'
-                      )}
-                    />
-                    <p className=" text-white font-semibold">
-                      {address ? substr(String(address)) : ''}
-                    </p>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    // className="flex rounded-full p-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    className="flex rounded-full font-medium p-2 bg-white text-base focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    id="user-menu-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    onClick={() => connect()}
-                  >
-                    Connect Wallet
-                  </button>
+      <div className="flex gap-10 items-center ml-3">
+        <Link
+          href="/"
+          className={`${
+            colorVariants[routerAspath === '/' ? 'active' : 'disable']
+          } font-semibold text-sm cursor-pointer`}
+        >
+          Mint Pass
+        </Link>
+        <Link
+          href="/gerar"
+          className={`${
+            colorVariants[routerAspath === '/gerar' ? 'active' : 'disable']
+          } font-semibold text-sm cursor-pointer`}
+        >
+          Gerar
+        </Link>
+        <Link
+          href="https://opensea.io/"
+          target="_blank"
+          className="text-neutral-500 font-semibold text-sm cursor-pointer"
+        >
+          Colleção
+        </Link>
+        <div>
+          {userWalletAddress !== '' ? (
+            <div className="flex items-center gap-2">
+              <Jazzicon
+                diameter={32}
+                seed={jsNumberForAddress(
+                  String(userWalletAddress) ||
+                    '0x1111111111111111111111111111111111111111'
                 )}
-              </div>
-
-              {/* <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-0">Your Profile</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-1">Settings</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-2">Sign out</a>
-              </div> */}
+              />
+              <p className=" text-white font-semibold text-sm cursor-pointer">
+                {address ? substr(String(address)) : ''}
+              </p>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          <a
-            href="#"
-            className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-            aria-current="page"
-          >
-            Dashboard
-          </a>
-
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-          >
-            Team
-          </a>
-
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-          >
-            Projects
-          </a>
-
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
-          >
-            Calendar
-          </a>
+          ) : (
+            <button
+              type="button"
+              className="flex rounded-full font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              id="user-menu-button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              onClick={() => connect()}
+            >
+              Conectar
+            </button>
+          )}
         </div>
       </div>
     </nav>

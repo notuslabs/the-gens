@@ -3,27 +3,22 @@
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export const config = {
-  runtime: 'edge',
-  regions: ['gru1'],
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   // eslint-disable-next-line prettier/prettier
   const address = req.query.address as string
-  const filter = req.query.filter as string | undefined;
+  const filters = req.query.filters as string | undefined;
 
   
   const finalFilters: any = {}
 
-  if(filter) {
-    const filtersSplit = filter.split(",")
+  if(filters) {
+    const filtersSplit = filters.split(",")
 
-    if(filtersSplit.includes('isFavorited')) finalFilters['isFavorited'] = true
-    if(filtersSplit.includes('isMinted')) finalFilters['isMinted'] = true
+    if(filtersSplit.includes('onlyFavorited')) finalFilters['isFavorited'] = true
+    if(filtersSplit.includes('onlyMinted')) finalFilters['isMinted'] = true
   }
 
   const prisma = new PrismaClient()

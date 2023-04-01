@@ -2,16 +2,11 @@
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export const config = {
-  runtime: 'edge',
-  regions: ['gru1'],
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const imageId = req.query.imageId as string
+  const imageId = req.body.imageId as string
 
   const prisma = new PrismaClient()
 

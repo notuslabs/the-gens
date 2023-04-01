@@ -12,11 +12,6 @@ type Data = {
   address: string
 }
 
-export const config = {
-  runtime: 'edge',
-  regions: ['gru1'],
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -50,7 +45,7 @@ export default async function handler(
 
   const results = await Promise.all(userImgUploadPromises);
 
-  const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt }))
+  const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt, isMinted: false, isFavorited: false }))
 
   await prisma.userImage.createMany({
     data,

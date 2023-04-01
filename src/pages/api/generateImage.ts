@@ -2,6 +2,7 @@
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from "openai";
+import { v2 as cloudinary } from "cloudinary";
 
 type Data = {
   prompt: string,
@@ -25,12 +26,25 @@ export default async function handler(
   const response = await openai.createImage({
     prompt: prompt,
     n: numImages,
-    size: '512x512',
+    size: '1024x1024',
   });
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY,
+    api_secret: process.env.CLOUD_SECRET
+  });
+
+  const userImgUploadPromises = [];
+  for(const userImage of response.data.data) {
+    userImgUploadPromises.push(cloudinary.uploader.upload(userImage.url || ''))
+  }
+
+  const results = await Promise.all(userImgUploadPromises);
 
   await prisma.userImage.createMany({
-    data: response.data.data.map((image) => ({ image_url: image.url || '', address: address, prompt }))
+    data: results.map((image) => ({ image_url: image.secure_url || '', address: address, prompt }))
   });
 
-  return res.json(response.data.data)
+  return res.json(results.map((result) => ({ url: result.secure_url })))
 }

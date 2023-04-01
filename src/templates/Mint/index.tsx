@@ -1,12 +1,10 @@
 import React from 'react'
 
-import Header from '@/components/Header'
-
 const Mint = () => {
   return (
     <main
       className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] text-white"
-      style={{ marginTop: '-56px' }}
+      style={{ marginTop: '-72px' }}
     >
       <p className="px-8 pt-16 text-white">
         Uma coleção colaborativa de arte com IA

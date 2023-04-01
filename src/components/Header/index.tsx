@@ -37,7 +37,7 @@ const Header = () => {
     <nav
       className={`
       ${routerAspath === '/' ? 'bg-transparent' : 'bg-black'}
-      flex justify-between items-center px-8 py-3`}
+      flex justify-between items-center px-8 py-3 h-[72px]`}
     >
       {routerAspath === '/'}
       <img src="/icons/logo.svg" alt="logo" width={86} height={24} />

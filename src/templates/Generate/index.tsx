@@ -10,6 +10,7 @@ import {
 
 import Cards from '@/components/Cards'
 import GenerateButtons from '@/components/GenerateButtons'
+import CollectionFilter from '@/components/CollectionFilter'
 
 const Generate = () => {
   React.useEffect(() => {
@@ -49,11 +50,20 @@ const Generate = () => {
   }, [])
 
   return (
-    <main className="bg-black w-full h-screen columns-2">
-      <div className="bg-gray-600 h-screen">
-        <GenerateButtons />
+    <main className="bg-black w-full px-8">
+      <div className="max-h-screen columns-2 bg-gray-600">
+        <div>
+          <GenerateButtons />
+        </div>
+        <div>
+          <Cards />
+        </div>
       </div>
-      <div className="bg-gray-600 h-screen">
+      <CollectionFilter />
+      <div className="h-auto columns-4">
+        {Array(11).map(item => (
+          <Cards key={item} />
+        ))}
         <Cards />
       </div>
     </main>

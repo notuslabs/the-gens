@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 import { aurora } from '@wagmi/chains'
-import Generate from '@/templates/Generate'
 
 export default function Home() {
   const { chain } = useNetwork()
@@ -21,7 +20,6 @@ export default function Home() {
           CHANGE NETWORK
         </button>
       )}
-      <Generate />
     </>
   )
 }

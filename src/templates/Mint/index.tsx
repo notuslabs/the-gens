@@ -4,9 +4,11 @@ import Header from '@/components/Header'
 
 const Mint = () => {
   return (
-    <main className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] text-white">
-      <Header />
-      <p className="px-8 pt-6 text-white">
+    <main
+      className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] text-white"
+      style={{ marginTop: '-56px' }}
+    >
+      <p className="px-8 pt-16 text-white">
         Uma coleção colaborativa de arte com IA
       </p>
       <div className="px-8 pt-48">
@@ -20,7 +22,7 @@ const Mint = () => {
           id="user-menu-button"
           aria-expanded="false"
           aria-haspopup="true"
-          // onClick={() => connect()}
+          onClick={() => alert('Vai interagir com o contrato.')}
         >
           Compre um Mint Pass
         </button>

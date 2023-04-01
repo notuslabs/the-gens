@@ -13,6 +13,7 @@ import Cards from '@/components/Cards'
 import GenerateButtons from '@/components/GenerateButtons'
 import CollectionFilter from '@/components/CollectionFilter'
 import { PromptInput } from './components/PromptInput'
+import Header from '@/components/Header'
 
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])

@@ -1,58 +1,62 @@
+import React from 'react'
+
 import {
   deleteImage,
   favoriteImage,
-  generateImage,
+  generateImages,
   getImages,
+  Image,
   mintImage
 } from '@/client'
-import React from 'react'
 
 import Cards from '@/components/Cards'
+import GenerateButtons from '@/components/GenerateButtons'
+import CollectionFilter from '@/components/CollectionFilter'
+import { PromptInput } from './components/PromptInput'
 
 const Generate = () => {
-  React.useEffect(() => {
-    async function test() {
-      const imageId = '714f333f-8995-423d-8bd0-bec4030ec80b'
-      const address = '0x00'
+  const [images, setImages] = React.useState<Image[]>([])
+  const [prompt, setPrompt] = React.useState('')
+  const [grid, setGrid] = React.useState<number>(1)
 
-      /*const generatedImages = await generateImage({
-        address,
-        prompt: 'test',
-        numImages: 1
-      })*/
+  const classGrid: Record<number, string> = {
+    1: 'grid-rows-1 grid-cols-1',
+    4: 'grid-rows-2 grid-cols-2',
+    9: 'grid-rows-3 grid-cols-3'
+  }
 
-      /*await mintImage({
-        imageId,
-        minted: true
-      })
-      await favoriteImage({
-        imageId,
-        favorite: true
-      })
+  async function generateImage(numImages: number) {
+    if (prompt === '') return
+    const images = await generateImages({
+      address: '0x00',
+      prompt,
+      numImages
+    })
 
-      await deleteImage({
-        imageId
-      })*/
-
-      const images = await getImages({
-        address: '0x00',
-        filters: {
-          onlyMinted: true
-        }
-      })
-      console.log(images)
-    }
-
-    test()
-  }, [])
+    setGrid(numImages)
+    setImages(images)
+  }
 
   return (
-    <main className="bg-black w-full h-screen columns-2">
-      <div className="bg-gray-600 h-screen">
-        <Cards />
+    <main className="bg-black px-8 pt-12">
+      <div className="h-[500px] grid grid-cols-2 gap-24">
+        <div>
+          <GenerateButtons onClick={generateImage} />
+          <PromptInput onPromptInput={setPrompt} />
+        </div>
+        <div
+          className={`${classGrid[grid]} h-[520px] w-full grid grid-flow-col gap-4 p-2 border border-solid rounded-md border-slate-500`}
+        >
+          {images.map(image => (
+            <Cards key={image.id} image={image} />
+          ))}
+        </div>
       </div>
-      <div className="bg-gray-600 h-screen">
-        <p className="text-white">grid</p>
+      <CollectionFilter />
+      <div className="h-auto grid-cols-2">
+        {images.map(image => (
+          <Cards key={image.id} image={image} />
+        ))}
       </div>
     </main>
   )

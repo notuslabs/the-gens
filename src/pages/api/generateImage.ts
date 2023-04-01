@@ -26,30 +26,35 @@ export default async function handler(
   const openai = new OpenAIApi(configuration);
   const prisma = new PrismaClient();
 
-  const response = await openai.createImage({
-    prompt: prompt,
-    n: numImages,
-    size: '1024x1024',
-  });
+  try {
+    const response = await openai.createImage({
+      prompt: prompt,
+      n: numImages,
+      size: '1024x1024',
+    });
 
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_KEY,
-    api_secret: process.env.CLOUD_SECRET
-  });
-
-  const userImgUploadPromises = [];
-  for(const userImage of response.data.data) {
-    userImgUploadPromises.push(cloudinary.uploader.upload(userImage.url || ''))
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.CLOUD_KEY,
+      api_secret: process.env.CLOUD_SECRET
+    });
+  
+    const userImgUploadPromises = [];
+    for(const userImage of response.data.data) {
+      userImgUploadPromises.push(cloudinary.uploader.upload(userImage.url || ''))
+    }
+  
+    const results = await Promise.all(userImgUploadPromises);
+  
+    const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt, isMinted: false, isFavorited: false }))
+  
+    await prisma.userImage.createMany({
+      data,
+    });
+  
+    return res.json(data)
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' })
   }
 
-  const results = await Promise.all(userImgUploadPromises);
-
-  const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt, isMinted: false, isFavorited: false }))
-
-  await prisma.userImage.createMany({
-    data,
-  });
-
-  return res.json(data)
 }

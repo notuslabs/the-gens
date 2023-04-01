@@ -35,21 +35,21 @@ const Header = () => {
 
   return (
     <nav className="flex justify-between items-center bg-black px-8 py-3">
-      <img src="/logo.svg" alt="logo" width={86} height={24} />
+      <img src="/icons/logo.svg" alt="logo" width={86} height={24} />
 
       <div className="flex gap-10 items-center ml-3">
         <Link
-          href="/mint"
+          href="/"
           className={`${
-            colorVariants[routerAspath === '/mint' ? 'active' : 'disable']
+            colorVariants[routerAspath === '/' ? 'active' : 'disable']
           } font-semibold text-sm cursor-pointer`}
         >
           Mint Pass
         </Link>
         <Link
-          href="/generate"
+          href="/gerar"
           className={`${
-            colorVariants[routerAspath === '/generate' ? 'active' : 'disable']
+            colorVariants[routerAspath === '/gerar' ? 'active' : 'disable']
           } font-semibold text-sm cursor-pointer`}
         >
           Gerar
@@ -59,7 +59,7 @@ const Header = () => {
           target="_blank"
           className="text-neutral-500 font-semibold text-sm cursor-pointer"
         >
-          Cooleção
+          Coleção
         </Link>
         <div>
           {userWalletAddress !== '' ? (

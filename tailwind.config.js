@@ -10,9 +10,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      width: {
-        '86': '350px'
-      },
       fontFamily: {
         "sans": ['"Inter"', 'sans-serif'],
         "oswalds": ['"Oswald"', 'sans-serif']

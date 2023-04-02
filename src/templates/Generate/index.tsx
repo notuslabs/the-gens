@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { useAccount } from 'wagmi'
-
 import {
   deleteImage,
   favoriteImage,
@@ -16,6 +14,7 @@ import GenerateButtons from '@/components/GenerateButtons'
 import CollectionFilter from '@/components/CollectionFilter'
 import { PromptInput } from './components/PromptInput'
 import ModalViewImage from '@/components/ModalViewImage'
+import { useAccount } from 'wagmi'
 
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])
@@ -23,6 +22,7 @@ const Generate = () => {
   const [grid, setGrid] = React.useState<number>(1)
   const [isOpenModal, setIsOpenModal] = React.useState(false)
   const [imageSelected, setImageSelected] = React.useState<Image | null>(null)
+  const [userImages, setuserImages] = React.useState<Image[]>([])
 
   const { address } = useAccount()
 
@@ -35,16 +35,37 @@ const Generate = () => {
   async function generateImage(numImages: number) {
     if (prompt === '') return
 
-    const images = await generateImages({
-      address: String(address),
-      prompt,
-      numImages
-    })
+    try {
+      const images = await generateImages({
+        address: String(address),
+        prompt,
+        numImages
+      })
 
-    console.log(images)
+      setImages(images)
+      getUserImages()
+    } catch (error) {
+      setImages([])
+    }
+
     setGrid(numImages)
-    setImages(images)
   }
+
+  async function getUserImages() {
+    try {
+      const userImages = await getImages({
+        address: String(address)
+      })
+
+      setuserImages(userImages)
+    } catch (error) {
+      setuserImages([])
+    }
+  }
+
+  React.useEffect(() => {
+    getUserImages()
+  }, [])
 
   return (
     <main className="bg-black px-8 pt-12">
@@ -67,7 +88,7 @@ const Generate = () => {
       </div>
       <CollectionFilter />
       <div className="h-auto grid grid-rows-4 grid-cols-4 gap-8">
-        {images.map(image => (
+        {userImages.map(image => (
           <Cards
             key={image.id}
             image={image}

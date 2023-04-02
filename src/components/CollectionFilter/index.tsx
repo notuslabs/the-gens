@@ -3,12 +3,12 @@ import React from 'react'
 const CollectionFilter = () => {
   const [selected, setSelected] = React.useState('Geradas')
   const colorVariants: Record<string, string> = {
-    disable: '',
+    disable: 'p-2 rounded-md',
     active: 'bg-white text-black p-2 rounded-md'
   }
 
   return (
-    <div className="border border-solid rounded-md border-slate-500 w-full space-x-20 text-gray-500 p-4 mt-24 mb-8">
+    <div className="border border-solid rounded-md border-slate-500 w-full space-x-14 text-gray-500 p-4 mt-24 mb-8">
       <button
         className={`${
           colorVariants[selected === 'Geradas' ? 'active' : 'disable']

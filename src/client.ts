@@ -7,10 +7,14 @@ export type GenerateImageProps = {
 
 export type Image = {
   id: string;
+  created_at: string;
   image_url: string;
   address: string;
   prompt: string;
-  isMinted: boolean;
+  minted: {
+    id: number,
+    userImageId: string
+  } | null;
   isFavorited: boolean;
 };
 

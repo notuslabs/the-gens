@@ -23,6 +23,7 @@ const Generate = () => {
   const [isOpenModal, setIsOpenModal] = React.useState(false)
   const [imageSelected, setImageSelected] = React.useState<Image | null>(null)
   const [userImages, setuserImages] = React.useState<Image[]>([])
+  const [isLoading, setisLoading] = React.useState(false)
 
   const { address } = useAccount()
 
@@ -34,6 +35,8 @@ const Generate = () => {
 
   async function generateImage(numImages: number) {
     if (prompt === '') return
+    setisLoading(true)
+    setGrid(numImages)
 
     try {
       const images = await generateImages({
@@ -42,13 +45,21 @@ const Generate = () => {
         numImages
       })
 
-      setImages(images)
-      getUserImages()
+      setisLoading(false)
+      if (Array.isArray(images)) {
+        setImages(images)
+        getUserImages()
+        setGrid(numImages)
+        return
+      }
+
+      setImages([])
     } catch (error) {
       setImages([])
+      setisLoading(false)
     }
 
-    setGrid(numImages)
+    setisLoading(false)
   }
 
   async function getUserImages() {
@@ -56,6 +67,11 @@ const Generate = () => {
       const userImages = await getImages({
         address: String(address)
       })
+
+      userImages.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
 
       setuserImages(userImages)
     } catch (error) {
@@ -71,22 +87,40 @@ const Generate = () => {
     <main className="bg-black px-8 pt-12">
       <div className="h-[500px] grid grid-cols-2 gap-24">
         <div>
-          <GenerateButtons onClick={generateImage} />
+          <GenerateButtons
+            onClick={generateImage}
+            buttonSelected={grid}
+            isLoading={isLoading}
+          />
           <PromptInput prompt={prompt} onPromptInput={setPrompt} />
         </div>
         <div
-          className={`${classGrid[grid]} h-[520px] w-full grid grid-flow-col gap-4 p-2 border border-solid rounded-md border-slate-500`}
+          className={`h-[520px] w-full p-2 border border-solid rounded-md border-slate-500`}
         >
-          {images.map(image => (
-            <Cards
-              key={image.id}
-              image={image}
-              setImageSelected={setImageSelected}
-            />
-          ))}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="relative w-32 h-32 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 bg-black ">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-black rounded-full border-2 border-black "></div>
+              </div>
+            </div>
+          ) : (
+            <div
+              className={`${classGrid[grid]} h-[504px] w-full grid grid-flow-col gap-4`}
+            >
+              {images.map(image => {
+                return (
+                  <Cards
+                    key={image.id}
+                    image={image}
+                    setImageSelected={setImageSelected}
+                  />
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
-      <CollectionFilter />
+      <CollectionFilter generateValue={userImages.length} />
       <div className="h-auto grid grid-rows-4 grid-cols-4 gap-8">
         {userImages.map(image => (
           <Cards

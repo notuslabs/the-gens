@@ -1,6 +1,10 @@
 import React from 'react'
 
-const CollectionFilter = () => {
+interface ICollectionFilterProps {
+  generateValue: number;
+}
+
+const CollectionFilter = ({ generateValue }: ICollectionFilterProps) => {
   const [selected, setSelected] = React.useState('Geradas')
   const colorVariants: Record<string, string> = {
     disable: 'p-2 rounded-md',
@@ -15,7 +19,7 @@ const CollectionFilter = () => {
         } font-semibold text-sm cursor-pointer`}
         onClick={() => setSelected('Geradas')}
       >
-        Geradas (123)
+        Geradas ({generateValue ?? 0})
       </button>
       <button
         className={`${

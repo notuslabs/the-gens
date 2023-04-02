@@ -19,6 +19,9 @@ export default async function handler(
   // eslint-disable-next-line prettier/prettier
   const { address, numImages, prompt } = req.body as Data
 
+  if (numImages > 10)
+    return res.status(400).json({ error: 'Too many images requested' })
+
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY
   })

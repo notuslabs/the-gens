@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { useAccount } from 'wagmi'
+
 import {
   deleteImage,
   favoriteImage,
@@ -14,7 +16,6 @@ import GenerateButtons from '@/components/GenerateButtons'
 import CollectionFilter from '@/components/CollectionFilter'
 import { PromptInput } from './components/PromptInput'
 import ModalViewImage from '@/components/ModalViewImage'
-import { useAccount } from 'wagmi'
 
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])

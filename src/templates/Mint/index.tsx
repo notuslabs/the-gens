@@ -3,7 +3,7 @@ import React from 'react'
 const Mint = () => {
   return (
     <main
-      className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] text-white"
+      className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] bg-cover text-white"
       style={{ marginTop: '-72px' }}
     >
       <p className="px-8 pt-16 text-white">

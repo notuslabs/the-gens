@@ -9,7 +9,7 @@ import changeChain from '@/Utils/changeChain'
 import Button from '../Button'
 
 interface IModalViewImageProps {
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {

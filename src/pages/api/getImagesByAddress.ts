@@ -13,20 +13,24 @@ export default async function handler(
 
   const finalFilters: any = {}
 
-  if (filters) {
-    const filtersSplit = filters.split(',')
+  try {
+    if (filters) {
+      const filtersSplit = filters.split(',')
 
-    if (filtersSplit.includes('onlyFavorited'))
-      finalFilters['isFavorited'] = true
-    if (filtersSplit.includes('onlyMinted')) finalFilters['isMinted'] = true
+      if (filtersSplit.includes('onlyFavorited'))
+        finalFilters['isFavorited'] = true
+      if (filtersSplit.includes('onlyMinted')) finalFilters['isMinted'] = true
+    }
+
+    const prisma = new PrismaClient()
+
+    const images = await prisma.userImage.findMany({
+      where: { address, ...finalFilters },
+      include: { minted: true }
+    })
+
+    return res.json(images)
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' })
   }
-
-  const prisma = new PrismaClient()
-
-  const images = await prisma.userImage.findMany({
-    where: { address, ...finalFilters },
-    include: { minted: true }
-  })
-
-  return res.json(images)
 }

@@ -1,14 +1,12 @@
 import React from 'react'
 
 export type PromptInputProps = {
+  prompt: string,
   onPromptInput: (currentInput: string) => void
 }
 
-export function PromptInput({ onPromptInput }: PromptInputProps) {
-  const [currentPrompt, setCurrentPrompt] = React.useState('')
-
+export function PromptInput({ prompt, onPromptInput }: PromptInputProps) {
   const handlePromptInput = (currentInput: string) => {
-    setCurrentPrompt(currentInput)
     onPromptInput(currentInput)
   }
 
@@ -19,7 +17,7 @@ export function PromptInput({ onPromptInput }: PromptInputProps) {
         className="w-full h-full bg-inherit resize-none outline-none text-white text-lg leading-6"
         onChange={e => handlePromptInput(e.target.value)}
         placeholder="type a prompt here..."
-        value={currentPrompt}
+        value={prompt}
       />
     </div>
   )

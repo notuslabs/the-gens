@@ -13,6 +13,7 @@ const Button = (props: IButtonProps) => {
        text-2xl
        font-semibold
        py-2
+       px-2
        rounded-xl
        transition-colors
        hover:animate-backgroundLinearGradient

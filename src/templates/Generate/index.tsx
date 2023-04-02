@@ -13,11 +13,17 @@ import Cards from '@/components/Cards'
 import GenerateButtons from '@/components/GenerateButtons'
 import CollectionFilter from '@/components/CollectionFilter'
 import { PromptInput } from './components/PromptInput'
+import ModalViewImage from '@/components/ModalViewImage'
+import { useAccount } from 'wagmi'
 
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])
   const [prompt, setPrompt] = React.useState('')
   const [grid, setGrid] = React.useState<number>(1)
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
+  const [imageSelected, setImageSelected] = React.useState<Image | null>(null)
+
+  const { address } = useAccount()
 
   const classGrid: Record<number, string> = {
     1: 'grid-rows-1 grid-cols-1',
@@ -27,12 +33,14 @@ const Generate = () => {
 
   async function generateImage(numImages: number) {
     if (prompt === '') return
+
     const images = await generateImages({
-      address: '0x00',
+      address: String(address),
       prompt,
       numImages
     })
 
+    console.log(images)
     setGrid(numImages)
     setImages(images)
   }
@@ -42,22 +50,39 @@ const Generate = () => {
       <div className="h-[500px] grid grid-cols-2 gap-24">
         <div>
           <GenerateButtons onClick={generateImage} />
-          <PromptInput onPromptInput={setPrompt} />
+          <PromptInput prompt={prompt} onPromptInput={setPrompt} />
         </div>
         <div
           className={`${classGrid[grid]} h-[520px] w-full grid grid-flow-col gap-4 p-2 border border-solid rounded-md border-slate-500`}
         >
           {images.map(image => (
-            <Cards key={image.id} image={image} />
+            <Cards
+              key={image.id}
+              image={image}
+              setImageSelected={setImageSelected}
+            />
           ))}
         </div>
       </div>
       <CollectionFilter />
-      <div className="h-auto grid-cols-2">
+      <div className="h-auto grid grid-rows-4 grid-cols-4 gap-8">
         {images.map(image => (
-          <Cards key={image.id} image={image} />
+          <Cards
+            key={image.id}
+            image={image}
+            setIsOpenModal={setIsOpenModal}
+            setImageSelected={setImageSelected}
+          />
         ))}
       </div>
+
+      {isOpenModal && imageSelected && (
+        <ModalViewImage
+          setIsOpenModal={setIsOpenModal}
+          ImageSelected={imageSelected}
+          setPrompt={setPrompt}
+        />
+      )}
     </main>
   )
 }

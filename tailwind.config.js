@@ -21,7 +21,7 @@ module.exports = {
         'backgroundLinearGradient':'AniLinearGradientButton 2s ease infinite',
       },
       backgroundColor: {
-        "backgroundModal": 'rgba(0, 0, 0, 0.8)',
+        "backgroundModal": 'rgb(23 23 23)',
         "backgroundCloseModal": 'rgba(255, 255, 255, 0.05)'
       },
       translate: {

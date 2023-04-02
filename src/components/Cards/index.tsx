@@ -1,14 +1,21 @@
 import React from 'react'
 import { Image } from '@/client'
 
-export type CardProps = {
-  image: Image
+export interface CardProps {
+  image: Image;
+  setIsOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageSelected: React.Dispatch<React.SetStateAction<Image | null>>;
 }
 
-const Cards = ({ image }: CardProps) => {
+const Cards = ({ image, setIsOpenModal, setImageSelected }: CardProps) => {
+  function handleClickImage(image: Image) {
+    setIsOpenModal && setIsOpenModal(true)
+    setImageSelected(image)
+  }
+
   return (
     <div className="relative">
-      <a href="/">
+      <a onClick={() => handleClickImage(image)} className="cursor-zoom-in">
         <img
           className="min-w-full max-h-full object-cover border border-solid rounded-lg border-slate-500"
           src={image.image_url}

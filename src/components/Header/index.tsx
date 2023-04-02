@@ -34,7 +34,12 @@ const Header = () => {
   }
 
   return (
-    <nav className="flex justify-between items-center bg-black px-8 py-3">
+    <nav
+      className={`
+      ${routerAspath === '/' ? 'bg-transparent' : 'bg-black'}
+      flex justify-between items-center px-8 py-3 h-[72px]`}
+    >
+      {routerAspath === '/'}
       <img src="/icons/logo.svg" alt="logo" width={86} height={24} />
 
       <div className="flex gap-10 items-center ml-3">

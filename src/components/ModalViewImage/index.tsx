@@ -56,6 +56,7 @@ const ModalViewImage = ({
         address,
         0
       )
+      const totalSupply = await theGenPassContract?.functions.totalSupply()
 
       await theGenPassContract?.functions.mint(
         tokenId.toString(),
@@ -70,7 +71,7 @@ const ModalViewImage = ({
 
       await mintImage({
         imageId: ImageSelected.id,
-        mintId: Number(tokenId.toString())
+        mintId: Number(totalSupply.toString()) + 1
       })
     } catch (error) {
       console.log(error)
@@ -119,7 +120,7 @@ const ModalViewImage = ({
             <div className="flex gap-2 mt-8">
               <button
                 type="button"
-                disabled={balanceOf === '0'}
+                // disabled={balanceOf === '0'}
                 className="rounded-lg font-semibold p-3 text-base disabled:opacity-75 bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 onClick={() => handleMint()}
               >

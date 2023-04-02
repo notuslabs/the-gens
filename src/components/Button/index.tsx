@@ -1,9 +1,9 @@
 import React, { ButtonHTMLAttributes } from 'react'
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
-  buttonSelected?: number;
-  isLoading?: boolean;
+  text: string
+  buttonSelected?: number
+  isLoading?: boolean
 }
 
 const Button = (props: IButtonProps) => {

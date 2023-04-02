@@ -8,8 +8,8 @@ import Button from '../Button'
 import changeChain from '@/Utils/changeChain'
 
 export type GenerateButtonsProps = {
-  onClick: (numImages: number) => unknown,
-  buttonSelected: number,
+  onClick: (numImages: number) => unknown
+  buttonSelected: number
   isLoading: boolean
 }
 

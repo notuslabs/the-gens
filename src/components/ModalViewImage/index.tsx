@@ -3,9 +3,9 @@ import React from 'react'
 import { Image } from '@/client'
 
 interface IModalViewImageProps {
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  ImageSelected: Image;
-  setPrompt: React.Dispatch<React.SetStateAction<string>>;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+  ImageSelected: Image
+  setPrompt: React.Dispatch<React.SetStateAction<string>>
 }
 
 const ModalViewImage = ({

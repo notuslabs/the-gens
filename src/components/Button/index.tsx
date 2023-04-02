@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react'
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
+  text: string
 }
 
 const Button = (props: IButtonProps) => {

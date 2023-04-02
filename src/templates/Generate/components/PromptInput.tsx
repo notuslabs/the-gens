@@ -1,7 +1,7 @@
 import React from 'react'
 
 export type PromptInputProps = {
-  prompt: string,
+  prompt: string
   onPromptInput: (currentInput: string) => void
 }
 

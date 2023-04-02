@@ -2,10 +2,10 @@ import React from 'react'
 import { Image, deleteImage, favoriteImage } from '@/client'
 
 export interface CardProps {
-  image: Image;
-  setIsOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
-  setImageSelected: React.Dispatch<React.SetStateAction<Image | null>>;
-  onImageDeletion?: (imageId: string) => void;
+  image: Image
+  setIsOpenModal?: React.Dispatch<React.SetStateAction<boolean>>
+  setImageSelected: React.Dispatch<React.SetStateAction<Image | null>>
+  onImageDeletion?: (imageId: string) => void
 }
 
 const Cards = ({

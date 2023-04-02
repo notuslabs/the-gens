@@ -1,19 +1,17 @@
 type ChangeChainParams = {
-  chainId: number,
-  chainName: string,
+  chainId: number
+  chainName: string
   rpcUrls: string[]
 }
 
-// eslint-disable-next-line prettier/prettier
 declare let window: {
   ethereum: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    request: (input: { method: string, params: [any] }) => void
+    request: (input: { method: string; params: [any] }) => void
   }
 }
 
 export default async ({ chainId, chainName, rpcUrls }: ChangeChainParams) => {
-  const chainIdHex = `0x${Number(chainId).toString(16)}`;
+  const chainIdHex = `0x${Number(chainId).toString(16)}`
 
   try {
     await window.ethereum.request({
@@ -31,7 +29,7 @@ export default async ({ chainId, chainName, rpcUrls }: ChangeChainParams) => {
               chainId: chainIdHex,
               chainName,
               rpcUrls
-            },
+            }
           ]
         })
       } catch (addError) {

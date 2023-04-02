@@ -60,7 +60,7 @@ const Header = () => {
           Gerar
         </Link>
         <Link
-          href="https://opensea.io/"
+          href="https://tofunft.com/nft/aurora/0xe273F57f6Bda1b26A8f0cd1dA7ADd65B3850257F"
           target="_blank"
           className="text-neutral-500 font-semibold text-sm cursor-pointer"
         >

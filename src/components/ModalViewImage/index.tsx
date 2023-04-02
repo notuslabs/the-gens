@@ -13,6 +13,7 @@ import theGenPassABI from '@/constants/the-gen.json'
 
 import { Image, mintImage } from '@/client'
 import { ethers } from 'ethers'
+import { addressDegen, addressMintPass } from '@/constants/tokenAddresses'
 
 interface IModalViewImageProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,9 +27,6 @@ const ModalViewImage = ({
   setPrompt
 }: IModalViewImageProps) => {
   const [balanceOf, setBalanceOf] = React.useState('0')
-
-  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
-  const addressDegen = '0xc03766D026d1C50E3Ec37b7844f5a9c0B9DE999D'
 
   const { address } = useAccount()
   const signer = useSigner()
@@ -103,7 +101,7 @@ const ModalViewImage = ({
 
       <div className="fixed top-2/4	left-2/4 translate-y-[-50%] translate-x-[-50%] z-20">
         <button
-          className="absolute top-[-80px] right-[-300px] p-2 bg-backgroundCloseModal rounded-full"
+          className="absolute top-[0] right-[-50px] p-2 bg-backgroundCloseModal rounded-full"
           onClick={() => setIsOpenModal(false)}
         >
           <img src="/close-icon.svg" alt="" width={16} height={16} />
@@ -139,7 +137,7 @@ const ModalViewImage = ({
               >
                 Usar Prompt
               </button>
-              <button
+              {/* <button
                 type="button"
                 className="rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 onClick={() => alert('Clicou no like')}
@@ -157,7 +155,7 @@ const ModalViewImage = ({
                 onClick={() => alert('Clicou no deletar')}
               >
                 <img src="/icons/trash.svg" alt="" width={24} height={24} />
-              </button>
+              </button> */}
             </div>
             <div className="mt-8">
               <span className="font-normal text-lg text-[#737474]">Prompt</span>

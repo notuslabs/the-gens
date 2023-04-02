@@ -17,6 +17,7 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import { aurora, auroraTestnet } from '@wagmi/chains'
 
 import MintPassABI from '@/constants/mint-pass.json'
+import { addressMintPass } from '@/constants/tokenAddresses'
 
 import changeChain from '@/Utils/changeChain'
 
@@ -35,8 +36,6 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
     connector: new InjectedConnector()
   })
 
-  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
-
   const mintPassContract = useContract({
     address: addressMintPass,
     abi: MintPassABI,
@@ -46,9 +45,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
   async function handleMint(value: number) {
     try {
       await mintPassContract?.functions.purchase(value, {
-        value: ethers.BigNumber.from(value).mul(
-          ethers.utils.parseEther('0.00001')
-        )
+        value: ethers.BigNumber.from(value).mul(ethers.utils.parseEther('0.01'))
       })
       setIsOpenModal(false)
     } catch (error) {
@@ -74,7 +71,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
 
       <div className="fixed top-2/4	left-2/4 translate-y-[-50%] translate-x-[-50%] z-20">
         <button
-          className="absolute top-[-150px] right-[-400px] p-2 bg-backgroundModalBlur rounded-full"
+          className="absolute top-1 right-1 p-2 bg-backgroundModal rounded-full"
           onClick={() => setIsOpenModal(false)}
         >
           <img src="/close-icon.svg" alt="" width={16} height={16} />
@@ -88,7 +85,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
             Mint Pass
           </h2>
           <p className="text-center text-white mt-8">
-            {`Custo ${100 * value} AURORA`}
+            {`Custo ${value / 100} AURORA`}
           </p>
           <div className="flex gap-4 justify-center my-12">
             <button

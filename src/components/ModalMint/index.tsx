@@ -39,9 +39,22 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
 
   async function handleMint(value: number) {
     try {
-      await mintPassContract?.functions.purchase(value, {
-        value: ethers.BigNumber.from(value).mul(ethers.utils.parseEther('0.01'))
-      })
+      await mintPassContract?.functions
+        .purchase(value, {
+          value: ethers.BigNumber.from(value).mul(
+            ethers.utils.parseEther('0.01')
+          )
+        })
+        .catch(error => {
+          if (error.data.message) {
+            alert(error.data.message)
+          } else if (error.message) {
+            alert(error.message)
+          } else {
+            alert(error)
+          }
+        })
+
       setIsOpenModal(false)
     } catch (error) {
       console.log(error)

@@ -11,9 +11,9 @@ export default async function handler(
   const prisma = new PrismaClient()
 
   try {
-    const images = await prisma.userImage.delete({ where: { id: imageId } });
+    await prisma.userImage.delete({ where: { id: imageId } })
     return res.status(204).send('')
   } catch (error) {
     return res.status(404).json({ error: 'Image not found' })
   }
-};
+}

@@ -1,8 +1,8 @@
 import React from 'react'
 import Generate from '@/templates/Generate'
 
-const Mint = () => {
+const Gerar = () => {
   return <Generate />
 }
 
-export default Mint
+export default Gerar

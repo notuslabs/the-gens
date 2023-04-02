@@ -22,6 +22,7 @@ module.exports = {
       },
       backgroundColor: {
         "backgroundModal": 'rgb(23 23 23)',
+        "backgroundModalBlur": 'rgba(0, 0, 0, 0.8)',
         "backgroundCloseModal": 'rgba(255, 255, 255, 0.05)'
       },
       translate: {

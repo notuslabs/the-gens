@@ -5,9 +5,15 @@ export interface CardProps {
   image: Image;
   setIsOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
   setImageSelected: React.Dispatch<React.SetStateAction<Image | null>>;
+  onImageDeletion?: (imageId: string) => void;
 }
 
-const Cards = ({ image, setIsOpenModal, setImageSelected }: CardProps) => {
+const Cards = ({
+  image,
+  setIsOpenModal,
+  setImageSelected,
+  onImageDeletion
+}: CardProps) => {
   const [isFavorited, setIsFavorited] = React.useState(image.isFavorited)
 
   function handleClickImage(image: Image) {
@@ -21,7 +27,14 @@ const Cards = ({ image, setIsOpenModal, setImageSelected }: CardProps) => {
   }
 
   async function handleDeleteImage() {
-    await deleteImage({ imageId: image.id })
+    try {
+      await deleteImage({ imageId: image.id })
+      console.log()
+
+      onImageDeletion ? onImageDeletion(image.id) : null
+    } catch (error) {
+      // handle this or not, you decide
+    }
   }
 
   return (
@@ -33,24 +46,30 @@ const Cards = ({ image, setIsOpenModal, setImageSelected }: CardProps) => {
         onClick={() => handleClickImage(image)}
         srcSet=""
       />
-      <button
-        type="button"
-        className="absolute right-14 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-        aria-expanded="false"
-        aria-haspopup="true"
-        onClick={() => handleFavoriteImage()}
-      >
-        <img src="/icons/heart.svg" alt="" />
-      </button>
-      <button
-        type="button"
-        className="absolute right-1 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-        aria-expanded="false"
-        aria-haspopup="true"
-        onClick={() => handleDeleteImage()}
-      >
-        <img src="/icons/trash.svg" alt="" />
-      </button>
+      <div>
+        <button
+          type="button"
+          className="absolute right-14 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onClick={() => handleFavoriteImage()}
+        >
+          {isFavorited ? (
+            <img src="/icons/red-heart.svg" alt="red heart" />
+          ) : (
+            <img src="/icons/black-heart.svg" alt="black heart" />
+          )}
+        </button>
+        <button
+          type="button"
+          className="absolute right-1 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          aria-expanded="false"
+          aria-haspopup="true"
+          onClick={() => handleDeleteImage()}
+        >
+          <img src="/icons/trash.svg" alt="" />
+        </button>
+      </div>
     </div>
   )
 }

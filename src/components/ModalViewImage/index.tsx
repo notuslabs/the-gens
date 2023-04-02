@@ -64,7 +64,12 @@ const ModalViewImage = ({
                 className="rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 onClick={() => alert('Clicou no like')}
               >
-                <img src="/icons/heart.svg" alt="" width={24} height={24} />
+                <img
+                  src="/icons/black-heart.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
               </button>
               <button
                 type="button"

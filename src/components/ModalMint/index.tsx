@@ -35,7 +35,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
     connector: new InjectedConnector()
   })
 
-  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
+  const addressMintPass = '0x7E9A8C892a709eB77CA0E29695Aef58Bca7085aa'
 
   const mintPassContract = useContract({
     address: addressMintPass,

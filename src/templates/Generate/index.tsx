@@ -16,14 +16,26 @@ import { PromptInput } from './components/PromptInput'
 import ModalViewImage from '@/components/ModalViewImage'
 import { useAccount } from 'wagmi'
 
+export type TabValues = {
+  allImages: number
+  favoritesImages: number
+  mintedImages: number
+}
+
 const Generate = () => {
   const [images, setImages] = React.useState<Image[]>([])
   const [prompt, setPrompt] = React.useState('')
   const [grid, setGrid] = React.useState<number>(1)
   const [isOpenModal, setIsOpenModal] = React.useState(false)
   const [imageSelected, setImageSelected] = React.useState<Image | null>(null)
-  const [userImages, setuserImages] = React.useState<Image[]>([])
+  const [userImages, setUserImages] = React.useState<Image[]>([])
   const [isLoading, setisLoading] = React.useState(false)
+  const [tabValues, setTabValues] = React.useState<TabValues>({
+    allImages: 0,
+    favoritesImages: 0,
+    mintedImages: 0
+  })
+  const [tabSelected, setTabSelected] = React.useState<string>('Geradas')
 
   const { address } = useAccount()
 
@@ -73,15 +85,30 @@ const Generate = () => {
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       )
 
-      setuserImages(userImages)
+      const favorites = userImages.filter(item => item.isFavorited)
+      const minted = userImages.filter(item => item.minted)
+
+      setTabValues({
+        allImages: userImages.length,
+        favoritesImages: favorites.length,
+        mintedImages: minted.length
+      })
+
+      if (tabSelected === 'Geradas') {
+        setUserImages(userImages)
+      } else if (tabSelected === 'Favoritas') {
+        setUserImages(favorites)
+      } else {
+        setUserImages(minted)
+      }
     } catch (error) {
-      setuserImages([])
+      setUserImages([])
     }
   }
 
   React.useEffect(() => {
     getUserImages()
-  }, [address])
+  }, [address, tabSelected])
 
   return (
     <main className="bg-black px-8 py-12">
@@ -120,7 +147,11 @@ const Generate = () => {
           )}
         </div>
       </div>
-      <CollectionFilter generateValue={userImages.length} />
+      <CollectionFilter
+        tabValues={tabValues}
+        tabSelected={tabSelected}
+        setTabSelected={setTabSelected}
+      />
       <div className="h-auto grid grid-rows-4 grid-cols-4 gap-8">
         {userImages.map(image => (
           <Cards
@@ -128,7 +159,7 @@ const Generate = () => {
             image={image}
             setIsOpenModal={setIsOpenModal}
             onImageDeletion={imageId =>
-              setuserImages(userImages.filter(image => image.id !== imageId))
+              setUserImages(userImages.filter(image => image.id !== imageId))
             }
             setImageSelected={setImageSelected}
           />

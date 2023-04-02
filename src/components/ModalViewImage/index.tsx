@@ -27,8 +27,8 @@ const ModalViewImage = ({
 }: IModalViewImageProps) => {
   const [balanceOf, setBalanceOf] = React.useState('0')
 
-  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
-  const addressDegen = '0xc03766D026d1C50E3Ec37b7844f5a9c0B9DE999D'
+  const addressMintPass = '0x7E9A8C892a709eB77CA0E29695Aef58Bca7085aa'
+  const addressTheGen = '0xAE150f18155bbDc5dc84368DFb5A1DC4Efa05AE9'
 
   const { address } = useAccount()
   const signer = useSigner()
@@ -40,7 +40,7 @@ const ModalViewImage = ({
   })
 
   const theGenPassContract = useContract({
-    address: addressDegen,
+    address: addressTheGen,
     abi: theGenPassABI,
     signerOrProvider: signer.data
   })

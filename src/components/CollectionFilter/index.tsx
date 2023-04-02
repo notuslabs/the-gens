@@ -1,12 +1,18 @@
 import React from 'react'
 
+import { TabValues } from '@/templates/Generate'
+
 interface ICollectionFilterProps {
-  generateValue: number
+  tabValues: TabValues
+  tabSelected: string
+  setTabSelected: React.Dispatch<React.SetStateAction<string>>
 }
 
-const CollectionFilter = ({ generateValue }: ICollectionFilterProps) => {
-  const [selected, setSelected] = React.useState('Geradas')
-
+const CollectionFilter = ({
+  tabValues,
+  tabSelected,
+  setTabSelected
+}: ICollectionFilterProps) => {
   const colorVariants: Record<string, string> = {
     disable: 'p-2 rounded-md',
     active: 'bg-white text-black p-2 rounded-md'
@@ -16,27 +22,27 @@ const CollectionFilter = ({ generateValue }: ICollectionFilterProps) => {
     <div className="border border-solid rounded-md border-slate-500 w-full space-x-14 text-gray-500 p-4 mt-24 mb-8">
       <button
         className={`${
-          colorVariants[selected === 'Geradas' ? 'active' : 'disable']
+          colorVariants[tabSelected === 'Geradas' ? 'active' : 'disable']
         } font-semibold text-sm cursor-pointer`}
-        onClick={() => setSelected('Geradas')}
+        onClick={() => setTabSelected('Geradas')}
       >
-        Geradas ({generateValue ?? 0})
+        Geradas ({tabValues.allImages ?? 0})
       </button>
       <button
         className={`${
-          colorVariants[selected === 'Favoritas' ? 'active' : 'disable']
+          colorVariants[tabSelected === 'Favoritas' ? 'active' : 'disable']
         } font-semibold text-sm cursor-pointer`}
-        onClick={() => setSelected('Favoritas')}
+        onClick={() => setTabSelected('Favoritas')}
       >
-        Favoritas (10)
+        Favoritas ({tabValues.favoritesImages ?? 0})
       </button>
       <button
         className={`${
-          colorVariants[selected === 'Mintadas' ? 'active' : 'disable']
+          colorVariants[tabSelected === 'Mintadas' ? 'active' : 'disable']
         } font-semibold text-sm cursor-pointer`}
-        onClick={() => setSelected('Mintadas')}
+        onClick={() => setTabSelected('Mintadas')}
       >
-        Mintadas (1)
+        Mintadas ({tabValues.mintedImages ?? 0})
       </button>
     </div>
   )

@@ -1,9 +1,41 @@
 import React from 'react'
 
 import ModalMint from '@/components/ModalMint'
+import { addressMintPass } from '@/constants/tokenAddresses'
+import { useContractRead } from 'wagmi'
+import MintPassABI from '@/constants/mint-pass.json'
+
+type IMindPassProps = {
+  purchased: string
+  max: string
+}
 
 const Mint = () => {
   const [isOpenModal, setIsOpenModal] = React.useState(false)
+  const [mindPassValues, setmindPassValues] = React.useState<IMindPassProps>({
+    purchased: '',
+    max: '1000'
+  })
+
+  const { data } = useContractRead({
+    address: addressMintPass,
+    abi: MintPassABI,
+    functionName: 'supplyStats'
+  })
+
+  const dataInfo: any = data
+
+  React.useEffect(() => {
+    if (!dataInfo) return
+
+    const max = dataInfo.max.toString()
+    const purchased = dataInfo.purchased.toString()
+
+    setmindPassValues({
+      max,
+      purchased
+    })
+  }, [data])
 
   return (
     <main
@@ -29,9 +61,12 @@ const Mint = () => {
           Compre um Mint Pass
         </button>
         <div className="grid grid-cols-1">
-          <span className="mb-1">100 AURORA</span>
-          <span>100/1000 Mint Pass</span>
+          <span className="mb-1">0.01 AETH</span>
+          <span>
+            {mindPassValues.purchased}/{mindPassValues.max} Mint Pass
+          </span>
         </div>
+        <img src="/chainLogo.svg" alt="" className="mt-3" />
       </div>
 
       {isOpenModal && <ModalMint setIsOpenModal={setIsOpenModal} />}

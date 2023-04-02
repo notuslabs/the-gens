@@ -1,18 +1,13 @@
 import React from 'react'
 
-import {
-  useAccount,
-  useConnect,
-  useNetwork,
-  useContract,
-  useSigner
-} from 'wagmi'
+import { useAccount, useContract, useSigner } from 'wagmi'
 
 import MintPassABI from '@/constants/mint-pass.json'
 import theGenPassABI from '@/constants/the-gen.json'
 
 import { Image, mintImage } from '@/client'
 import { ethers } from 'ethers'
+import { addressTheGen, addressMintPass } from '@/constants/tokenAddresses'
 
 interface IModalViewImageProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,9 +21,6 @@ const ModalViewImage = ({
   setPrompt
 }: IModalViewImageProps) => {
   const [balanceOf, setBalanceOf] = React.useState('0')
-
-  const addressMintPass = '0x7E9A8C892a709eB77CA0E29695Aef58Bca7085aa'
-  const addressTheGen = '0xAE150f18155bbDc5dc84368DFb5A1DC4Efa05AE9'
 
   const { address } = useAccount()
   const signer = useSigner()
@@ -54,7 +46,7 @@ const ModalViewImage = ({
     }
   }
 
-  function generateSeed(address: string, rest: string) {
+  function generateSeed(address: string, rest: number) {
     return ethers.utils.solidityPack(['address', 'uint96'], [address, rest])
   }
 
@@ -69,9 +61,10 @@ const ModalViewImage = ({
         tokenId.toString(),
         generateSeed(
           String(address),
-          ethers.utils.hexlify(
-            ethers.utils.toUtf8Bytes(`${ImageSelected.prompt}`)
-          )
+          Number(tokenId)
+          // ethers.utils.hexlify(
+          //   ethers.utils.toUtf8Bytes(`${ImageSelected.prompt}`)
+          // )
         )
       )
 
@@ -103,7 +96,7 @@ const ModalViewImage = ({
 
       <div className="fixed top-2/4	left-2/4 translate-y-[-50%] translate-x-[-50%] z-20">
         <button
-          className="absolute top-[-80px] right-[-300px] p-2 bg-backgroundCloseModal rounded-full"
+          className="absolute top-[0] right-[-50px] p-2 bg-backgroundCloseModal rounded-full"
           onClick={() => setIsOpenModal(false)}
         >
           <img src="/close-icon.svg" alt="" width={16} height={16} />
@@ -139,7 +132,7 @@ const ModalViewImage = ({
               >
                 Usar Prompt
               </button>
-              <button
+              {/* <button
                 type="button"
                 className="rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 onClick={() => alert('Clicou no like')}
@@ -157,7 +150,7 @@ const ModalViewImage = ({
                 onClick={() => alert('Clicou no deletar')}
               >
                 <img src="/icons/trash.svg" alt="" width={24} height={24} />
-              </button>
+              </button> */}
             </div>
             <div className="mt-8">
               <span className="font-normal text-lg text-[#737474]">Prompt</span>

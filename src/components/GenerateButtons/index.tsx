@@ -3,7 +3,7 @@ import React from 'react'
 import { useAccount, useConnect, useNetwork, useContract } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
-import { aurora } from '@wagmi/chains'
+import { aurora, auroraTestnet } from '@wagmi/chains'
 import Button from '../Button'
 
 import changeChain from '@/Utils/changeChain'
@@ -38,7 +38,7 @@ const GenerateButtons = ({
   return (
     <div>
       {userWalletAddress !== '' ? (
-        chain?.id === aurora.id ? (
+        chain?.id === auroraTestnet.id ? (
           <div className="grid grid-cols-grid-buttons gap-2 p-4 border border-solid rounded-md border-slate-500">
             <Button
               onClick={() => onClick(1)}
@@ -64,12 +64,12 @@ const GenerateButtons = ({
             <Button
               onClick={() =>
                 changeChain({
-                  chainId: aurora.id,
-                  chainName: aurora.name,
-                  rpcUrls: [aurora.rpcUrls.default.http[0]]
+                  chainId: auroraTestnet.id,
+                  chainName: auroraTestnet.name,
+                  rpcUrls: [auroraTestnet.rpcUrls.default.http[0]]
                 })
               }
-              text="Trocar rede para Aurora"
+              text={`Trocar rede para ${auroraTestnet.name}`}
             />
           </div>
         )

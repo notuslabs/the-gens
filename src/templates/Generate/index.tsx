@@ -41,7 +41,6 @@ const Generate = () => {
       numImages
     })
 
-    console.log(images)
     setGrid(numImages)
     setImages(images)
   }

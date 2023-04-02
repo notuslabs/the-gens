@@ -46,8 +46,16 @@ export default async function handler(
   
     const results = await Promise.all(userImgUploadPromises);
   
-    const data = results.map((image) => ({ id: uuidV4(), image_url: image.secure_url || '', address: address, prompt, isMinted: false, isFavorited: false }))
-  
+    const data = results.map((image) => ({ 
+      id: uuidV4(), 
+      image_url: image.secure_url || '', 
+      address: address, 
+      prompt, 
+      isMinted: false, 
+      isFavorited: false,
+      created_at: new Date()
+    }))
+
     await prisma.userImage.createMany({
       data,
     });

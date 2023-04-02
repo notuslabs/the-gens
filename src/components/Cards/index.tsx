@@ -15,6 +15,7 @@ const Cards = ({
   onImageDeletion
 }: CardProps) => {
   const [isFavorited, setIsFavorited] = React.useState(image.isFavorited)
+  const [isButtonVisible, setIsButtonVisible] = React.useState(false)
 
   function handleClickImage(image: Image) {
     setIsOpenModal && setIsOpenModal(true)
@@ -38,7 +39,11 @@ const Cards = ({
   }
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseOver={() => setIsButtonVisible(true)}
+      onMouseOut={() => setIsButtonVisible(false)}
+    >
       <img
         className="cursor-zoom-in min-w-full max-h-full object-cover border border-solid rounded-lg border-slate-500"
         src={image.image_url}
@@ -46,30 +51,32 @@ const Cards = ({
         onClick={() => handleClickImage(image)}
         srcSet=""
       />
-      <div>
-        <button
-          type="button"
-          className="absolute right-14 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-          aria-expanded="false"
-          aria-haspopup="true"
-          onClick={() => handleFavoriteImage()}
-        >
-          {isFavorited ? (
-            <img src="/icons/red-heart.svg" alt="red heart" />
-          ) : (
-            <img src="/icons/black-heart.svg" alt="black heart" />
-          )}
-        </button>
-        <button
-          type="button"
-          className="absolute right-1 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-          aria-expanded="false"
-          aria-haspopup="true"
-          onClick={() => handleDeleteImage()}
-        >
-          <img src="/icons/trash.svg" alt="" />
-        </button>
-      </div>
+      {isButtonVisible && (
+        <div>
+          <button
+            type="button"
+            className="absolute right-14 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            aria-expanded="false"
+            aria-haspopup="true"
+            onClick={() => handleFavoriteImage()}
+          >
+            {isFavorited ? (
+              <img src="/icons/red-heart.svg" alt="red heart" />
+            ) : (
+              <img src="/icons/black-heart.svg" alt="black heart" />
+            )}
+          </button>
+          <button
+            type="button"
+            className="absolute right-1 top-2 flex rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            aria-expanded="false"
+            aria-haspopup="true"
+            onClick={() => handleDeleteImage()}
+          >
+            <img src="/icons/trash.svg" alt="" />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

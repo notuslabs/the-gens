@@ -61,7 +61,7 @@ const Mint = () => {
           Compre um Mint Pass
         </button>
         <div className="grid grid-cols-1">
-          <span className="mb-1">0.001 AETH</span>
+          <span className="mb-1">0.01 AETH</span>
           <span>
             {mindPassValues.purchased}/{mindPassValues.max} Mint Pass
           </span>

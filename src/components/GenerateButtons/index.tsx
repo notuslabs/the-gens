@@ -64,12 +64,12 @@ const GenerateButtons = ({
             <Button
               onClick={() =>
                 changeChain({
-                  chainId: aurora.id,
-                  chainName: aurora.name,
-                  rpcUrls: [aurora.rpcUrls.default.http[0]]
+                  chainId: auroraTestnet.id,
+                  chainName: auroraTestnet.name,
+                  rpcUrls: [auroraTestnet.rpcUrls.default.http[0]]
                 })
               }
-              text="Trocar rede para Aurora"
+              text={`Trocar rede para ${auroraTestnet.name}`}
             />
           </div>
         )

@@ -52,7 +52,7 @@ const ModalViewImage = ({
     }
   }
 
-  function generateSeed(address: string, rest: string) {
+  function generateSeed(address: string, rest: number) {
     return ethers.utils.solidityPack(['address', 'uint96'], [address, rest])
   }
 
@@ -67,9 +67,10 @@ const ModalViewImage = ({
         tokenId.toString(),
         generateSeed(
           String(address),
-          ethers.utils.hexlify(
-            ethers.utils.toUtf8Bytes(`${ImageSelected.prompt}`)
-          )
+          Number(tokenId)
+          // ethers.utils.hexlify(
+          //   ethers.utils.toUtf8Bytes(`${ImageSelected.prompt}`)
+          // )
         )
       )
 

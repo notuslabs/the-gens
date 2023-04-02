@@ -85,7 +85,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
             Mint Pass
           </h2>
           <p className="text-center text-white mt-8">
-            {`Custo ${value / 100} AURORA`}
+            {`Custo ${value / 100} AETH`}
           </p>
           <div className="flex gap-4 justify-center my-12">
             <button
@@ -151,7 +151,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
                   })
                 }
               >
-                Trocar rede para Aurora
+                Trocar rede para {auroraTestnet.name}
               </button>
             )
           ) : (

@@ -1,6 +1,10 @@
 import React from 'react'
 
+import ModalMint from '@/components/ModalMint'
+
 const Mint = () => {
+  const [isOpenModal, setIsOpenModal] = React.useState(false)
+
   return (
     <main
       className="bg-black w-full h-screen bg-[url('/icons/bg-the-gens.png')] bg-cover text-white"
@@ -20,7 +24,7 @@ const Mint = () => {
           id="user-menu-button"
           aria-expanded="false"
           aria-haspopup="true"
-          onClick={() => alert('Vai interagir com o contrato.')}
+          onClick={() => setIsOpenModal(true)}
         >
           Compre um Mint Pass
         </button>
@@ -29,6 +33,8 @@ const Mint = () => {
           <span>100/1000 Mint Pass</span>
         </div>
       </div>
+
+      {isOpenModal && <ModalMint setIsOpenModal={setIsOpenModal} />}
     </main>
   )
 }

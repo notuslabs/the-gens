@@ -38,7 +38,7 @@ const GenerateButtons = ({
   return (
     <div>
       {userWalletAddress !== '' ? (
-        chain?.id === auroraTestnet.id ? (
+        chain?.id === aurora.id ? (
           <div className="grid grid-cols-grid-buttons gap-2 p-4 border border-solid rounded-md border-slate-500">
             <Button
               onClick={() => onClick(1)}
@@ -64,12 +64,12 @@ const GenerateButtons = ({
             <Button
               onClick={() =>
                 changeChain({
-                  chainId: auroraTestnet.id,
-                  chainName: auroraTestnet.name,
-                  rpcUrls: [auroraTestnet.rpcUrls.default.http[0]]
+                  chainId: aurora.id,
+                  chainName: aurora.name,
+                  rpcUrls: [aurora.rpcUrls.default.http[0]]
                 })
               }
-              text={`Trocar rede para ${auroraTestnet.name}`}
+              text={`Trocar rede para ${aurora.name}`}
             />
           </div>
         )

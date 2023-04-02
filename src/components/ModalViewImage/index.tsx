@@ -56,6 +56,7 @@ const ModalViewImage = ({
         address,
         0
       )
+      const totalSupply = await theGenPassContract?.functions.totalSupply()
 
       await theGenPassContract?.functions.mint(
         tokenId.toString(),
@@ -70,7 +71,7 @@ const ModalViewImage = ({
 
       await mintImage({
         imageId: ImageSelected.id,
-        mintId: Number(tokenId.toString())
+        mintId: Number(totalSupply.toString()) + 1
       })
     } catch (error) {
       console.log(error)

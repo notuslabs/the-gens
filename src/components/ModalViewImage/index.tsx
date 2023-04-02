@@ -1,6 +1,18 @@
 import React from 'react'
 
-import { Image } from '@/client'
+import {
+  useAccount,
+  useConnect,
+  useNetwork,
+  useContract,
+  useSigner
+} from 'wagmi'
+
+import MintPassABI from '@/constants/mint-pass.json'
+import theGenPassABI from '@/constants/the-gen.json'
+
+import { Image, mintImage } from '@/client'
+import { ethers } from 'ethers'
 
 interface IModalViewImageProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,10 +25,75 @@ const ModalViewImage = ({
   ImageSelected,
   setPrompt
 }: IModalViewImageProps) => {
+  const [balanceOf, setBalanceOf] = React.useState('0')
+
+  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
+  const addressDegen = '0xc03766D026d1C50E3Ec37b7844f5a9c0B9DE999D'
+
+  const { address } = useAccount()
+  const signer = useSigner()
+
+  const mintPassContract = useContract({
+    address: addressMintPass,
+    abi: MintPassABI,
+    signerOrProvider: signer.data
+  })
+
+  const theGenPassContract = useContract({
+    address: addressDegen,
+    abi: theGenPassABI,
+    signerOrProvider: signer.data
+  })
+
+  async function handleBalanceOf() {
+    try {
+      const balance = await mintPassContract?.functions.balanceOf(address)
+      setBalanceOf(balance.toString())
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  function generateSeed(address: string, rest: string) {
+    return ethers.utils.solidityPack(['address', 'uint96'], [address, rest])
+  }
+
+  async function handleMint() {
+    try {
+      const tokenId = await mintPassContract?.functions.tokenOfOwnerByIndex(
+        address,
+        0
+      )
+
+      await theGenPassContract?.functions.mint(
+        tokenId.toString(),
+        generateSeed(
+          String(address),
+          ethers.utils.hexlify(
+            ethers.utils.toUtf8Bytes(`${ImageSelected.prompt}`)
+          )
+        )
+      )
+
+      await mintImage({
+        imageId: ImageSelected.id,
+        mintId: Number(tokenId.toString())
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   function handelClickUsePrompt() {
     setPrompt(ImageSelected.prompt)
     setIsOpenModal(false)
   }
+
+  React.useEffect(() => {
+    if (!address && !mintPassContract) return
+    handleBalanceOf()
+  }, [address, mintPassContract])
+
   return (
     <div className="">
       <div
@@ -41,14 +118,17 @@ const ModalViewImage = ({
           />
 
           <div className="flex flex-col ">
-            <span className="font-normal text-lg text-[#737474]">
-              Você tem 1 Mint Pass
-            </span>
+            {address && (
+              <span className="font-normal text-lg text-[#737474]">
+                Você tem {balanceOf} Mint Pass
+              </span>
+            )}
             <div className="flex gap-2 mt-8">
               <button
                 type="button"
-                className="rounded-lg font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                onClick={() => alert('Clicou no like')}
+                disabled={balanceOf === '0'}
+                className="rounded-lg font-semibold p-3 text-base disabled:opacity-75 bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                onClick={() => handleMint()}
               >
                 Mintar
               </button>

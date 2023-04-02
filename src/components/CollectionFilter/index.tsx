@@ -6,6 +6,7 @@ interface ICollectionFilterProps {
 
 const CollectionFilter = ({ generateValue }: ICollectionFilterProps) => {
   const [selected, setSelected] = React.useState('Geradas')
+
   const colorVariants: Record<string, string> = {
     disable: 'p-2 rounded-md',
     active: 'bg-white text-black p-2 rounded-md'

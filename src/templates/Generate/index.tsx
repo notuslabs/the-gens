@@ -81,10 +81,10 @@ const Generate = () => {
 
   React.useEffect(() => {
     getUserImages()
-  }, [])
+  }, [address])
 
   return (
-    <main className="bg-black px-8 pt-12">
+    <main className="bg-black px-8 py-12">
       <div className="h-[500px] grid grid-cols-2 gap-24">
         <div>
           <GenerateButtons

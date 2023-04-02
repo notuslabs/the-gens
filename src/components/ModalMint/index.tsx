@@ -1,12 +1,24 @@
 import React from 'react'
 
-import { useAccount, useConnect, useNetwork } from 'wagmi'
+import { ethers } from 'ethers'
+import {
+  useAccount,
+  useConnect,
+  useNetwork,
+  useContract,
+  useProvider,
+  useContractRead,
+  readContracts,
+  useSigner,
+  useContractWrite,
+  usePrepareContractWrite
+} from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { aurora } from '@wagmi/chains'
+import { aurora, auroraTestnet } from '@wagmi/chains'
+
+import MintPassABI from '@/constants/mint-pass.json'
 
 import changeChain from '@/Utils/changeChain'
-
-import Button from '../Button'
 
 interface IModalViewImageProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,11 +29,33 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
   const [userWalletAddress, setuserWalletAddress] = React.useState('')
 
   const { address, isConnected } = useAccount()
+  const signer = useSigner()
   const { chain } = useNetwork()
-
   const { connect } = useConnect({
     connector: new InjectedConnector()
   })
+
+  const addressMintPass = '0xF68ed5aa33eBE96B2DeF71D746E33A13aC3CDC14'
+
+  const mintPassContract = useContract({
+    address: addressMintPass,
+    abi: MintPassABI,
+    signerOrProvider: signer.data
+  })
+
+  async function handleMint(value: number) {
+    try {
+      await mintPassContract?.functions.purchase(value, {
+        value: ethers.BigNumber.from(value).mul(
+          ethers.utils.parseEther('0.00001')
+        )
+      })
+      setIsOpenModal(false)
+    } catch (error) {
+      console.log(error)
+      setIsOpenModal(false)
+    }
+  }
 
   React.useEffect(() => {
     if (isConnected) {
@@ -30,11 +64,6 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
       setuserWalletAddress('')
     }
   }, [address])
-
-  // function handelClickUsePrompt() {
-  //   setPrompt(ImageSelected.prompt)
-  //   setIsOpenModal(false)
-  // }
 
   return (
     <div className="">
@@ -93,17 +122,17 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
           </div>
 
           {userWalletAddress !== '' ? (
-            chain?.id === aurora.id ? (
+            chain?.id === auroraTestnet.id ? (
               <button
                 type="button"
                 className="
-                  hover:animate-backgroundLinearGradient 
-                  hover:bg-[linear-gradient(50deg,#EAB597,#E8EA97,#97EAC7,#97DBEA,#97A9EA,#C597EA,#EA97BF,#EA9797)] 
+                  hover:animate-backgroundLinearGradient
+                  hover:bg-[linear-gradient(50deg,#EAB597,#E8EA97,#97EAC7,#97DBEA,#97A9EA,#C597EA,#EA97BF,#EA9797)]
                   block mx-auto rounded-full font-semibold p-3 text-base bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 id="user-menu-button"
                 aria-expanded="false"
                 aria-haspopup="true"
-                // onClick={() => connect()}
+                onClick={() => handleMint(value)}
               >
                 Comprar
               </button>
@@ -119,9 +148,9 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
                 aria-haspopup="true"
                 onClick={() =>
                   changeChain({
-                    chainId: aurora.id,
-                    chainName: aurora.name,
-                    rpcUrls: [aurora.rpcUrls.default.http[0]]
+                    chainId: auroraTestnet.id,
+                    chainName: auroraTestnet.name,
+                    rpcUrls: [auroraTestnet.rpcUrls.default.http[0]]
                   })
                 }
               >

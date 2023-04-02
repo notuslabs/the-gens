@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 
-import { mainnet, aurora } from '@wagmi/chains'
+import { mainnet, aurora, auroraTestnet } from '@wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { WagmiConfig, createClient, configureChains } from 'wagmi'
 
@@ -10,7 +10,7 @@ import '@/styles/globals.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   const { provider, webSocketProvider } = configureChains(
-    [mainnet, aurora],
+    [mainnet, aurora, auroraTestnet],
     [publicProvider()]
   )
 

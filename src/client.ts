@@ -28,7 +28,7 @@ export type GetImagesByAddressProps = {
 
 export type MintImageProps = {
   imageId: string
-  minted: boolean
+  mintId: number
 }
 
 export type FavoriteImageProps = {
@@ -75,12 +75,12 @@ export const getImages = async ({
 
 export const mintImage = async ({
   imageId,
-  minted
+  mintId
 }: MintImageProps): Promise<void> => {
   await fetch(`/api/mintImage`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
-    body: JSON.stringify({ imageId, minted })
+    body: JSON.stringify({ imageId, mintId })
   })
 }
 

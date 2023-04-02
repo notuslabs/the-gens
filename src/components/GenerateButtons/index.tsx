@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { useAccount, useConnect, useNetwork } from 'wagmi'
+import { useAccount, useConnect, useNetwork, useContract } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+
 import { aurora } from '@wagmi/chains'
 import Button from '../Button'
 
@@ -19,7 +20,6 @@ const GenerateButtons = ({
   isLoading
 }: GenerateButtonsProps) => {
   const [userWalletAddress, setuserWalletAddress] = React.useState('')
-
   const { address, isConnected } = useAccount()
   const { chain } = useNetwork()
 

@@ -30,7 +30,6 @@ const Cards = ({
   async function handleDeleteImage() {
     try {
       await deleteImage({ imageId: image.id })
-      console.log()
 
       onImageDeletion ? onImageDeletion(image.id) : null
     } catch (error) {

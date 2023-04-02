@@ -35,4 +35,3 @@ const Button = (props: IButtonProps) => {
 }
 
 export default Button
-//

@@ -127,6 +127,9 @@ const Generate = () => {
             key={image.id}
             image={image}
             setIsOpenModal={setIsOpenModal}
+            onImageDeletion={imageId =>
+              setuserImages(userImages.filter(image => image.id !== imageId))
+            }
             setImageSelected={setImageSelected}
           />
         ))}

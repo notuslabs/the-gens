@@ -114,7 +114,7 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
           </div>
 
           {userWalletAddress !== '' ? (
-            chain?.id === auroraTestnet.id ? (
+            chain?.id === aurora.id ? (
               <button
                 type="button"
                 className="
@@ -140,13 +140,13 @@ const ModalMint = ({ setIsOpenModal }: IModalViewImageProps) => {
                 aria-haspopup="true"
                 onClick={() =>
                   changeChain({
-                    chainId: auroraTestnet.id,
-                    chainName: auroraTestnet.name,
-                    rpcUrls: [auroraTestnet.rpcUrls.default.http[0]]
+                    chainId: aurora.id,
+                    chainName: aurora.name,
+                    rpcUrls: [aurora.rpcUrls.default.http[0]]
                   })
                 }
               >
-                Trocar rede para {auroraTestnet.name}
+                Trocar rede para {aurora.name}
               </button>
             )
           ) : (
